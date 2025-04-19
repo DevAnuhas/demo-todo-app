@@ -1,6 +1,3 @@
-"use client";
-
-import { Suspense } from "react";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -11,11 +8,26 @@ import {
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { useSearchParams } from "next/navigation";
+import { emailLogin, signUp } from "./actions";
+import { redirect } from "next/navigation";
+import { createClient } from "@/utils/supabase/server";
 
-function LoginForm() {
-	const searchParams = useSearchParams();
-	const message = searchParams.get("message");
+interface PageProps {
+	searchParams: Promise<{ message?: string }>;
+}
+
+export default async function Login({ searchParams }: PageProps) {
+	const supabase = await createClient();
+	const params = await searchParams;
+	const message = params?.message;
+
+	const {
+		data: { user },
+	} = await supabase.auth.getUser();
+
+	if (user) {
+		return redirect("/todos");
+	}
 
 	return (
 		<section className="h-[calc(100vh-57px)] flex justify-center items-center">
@@ -55,24 +67,23 @@ function LoginForm() {
 								{message}
 							</div>
 						)}
-						<Button className="w-full">Login</Button>
+						<Button formAction={emailLogin} className="w-full">
+							Login
+						</Button>
 					</form>
 					<div className="mt-4 text-center text-sm">
 						Don&apos;t have an account?{" "}
-						<Button form="login-form" variant={"link"} className="p-0">
+						<Button
+							formAction={signUp}
+							form="login-form"
+							variant={"link"}
+							className="p-0"
+						>
 							Sign up
 						</Button>
 					</div>
 				</CardContent>
 			</Card>
 		</section>
-	);
-}
-
-export default function Login() {
-	return (
-		<Suspense fallback={<div>Loading...</div>}>
-			<LoginForm />
-		</Suspense>
 	);
 }
