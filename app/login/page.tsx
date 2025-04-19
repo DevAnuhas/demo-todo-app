@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 export default function Login({
 	searchParams,
 }: {
-	searchParams: { message: string };
+	searchParams: Record<string, string>;
 }) {
 	return (
 		<section className="h-[calc(100vh-57px)] flex justify-center items-center">
