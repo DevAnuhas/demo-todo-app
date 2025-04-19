@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -8,12 +10,12 @@ import {
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { useSearchParams } from "next/navigation";
 
-export default function Login({
-	searchParams,
-}: {
-	searchParams: Record<string, string>;
-}) {
+export default function Login() {
+	const searchParams = useSearchParams();
+	const message = searchParams.get("message");
+
 	return (
 		<section className="h-[calc(100vh-57px)] flex justify-center items-center">
 			<Card className="mx-auto w-full max-w-sm">
@@ -47,9 +49,9 @@ export default function Login({
 								required
 							/>
 						</div>
-						{searchParams.message && (
+						{message && (
 							<div className="text-sm font-medium text-destructive">
-								{searchParams.message}
+								{message}
 							</div>
 						)}
 						<Button className="w-full">Login</Button>
