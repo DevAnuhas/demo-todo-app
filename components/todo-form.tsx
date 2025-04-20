@@ -1,3 +1,7 @@
+"use client";
+
+import { FormEvent, useRef } from "react";
+import { addTodo } from "@/app/todos/actions";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
@@ -8,7 +12,7 @@ function FormContent() {
 		<>
 			<Textarea
 				minLength={4}
-				name="todo"
+				name="text"
 				required
 				placeholder="Add a new todo"
 			/>
@@ -21,10 +25,19 @@ function FormContent() {
 }
 
 export function TodoForm() {
+	const formRef = useRef<HTMLFormElement>(null);
+
+	async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+		event.preventDefault();
+		const formData = new FormData(formRef.current!);
+		await addTodo(formData);
+		formRef.current?.reset();
+	}
+
 	return (
 		<Card>
 			<CardContent className="p-3">
-				<form className="flex gap-4">
+				<form ref={formRef} className="flex gap-4" onSubmit={handleSubmit}>
 					<FormContent />
 				</form>
 			</CardContent>
