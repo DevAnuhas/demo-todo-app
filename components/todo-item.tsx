@@ -32,7 +32,7 @@ export function TodoCard({
 }) {
 	return (
 		<Card className={cn("w-full")}>
-			<CardContent className="flex items-start gap-3 px-3">
+			<CardContent className="flex items-start gap-3">
 				<span className="size-10 flex items-center justify-center">
 					<Checkbox
 						type="submit"

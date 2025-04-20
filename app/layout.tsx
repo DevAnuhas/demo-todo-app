@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-	title: "TodoZap",
-	description: "TodoZap",
+	title: "Todo App",
+	description: "Demo Todo App",
 };
 
 export default function RootLayout({

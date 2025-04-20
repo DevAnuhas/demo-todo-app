@@ -9,7 +9,7 @@ import { addTodo } from "@/app/todos/actions";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { Send } from "lucide-react";
+import { Plus } from "lucide-react";
 
 function FormContent() {
 	const { pending } = useFormStatus();
@@ -22,9 +22,9 @@ function FormContent() {
 				required
 				placeholder="Add a new todo"
 			/>
-			<Button disabled={pending} type="submit" size="icon" className="min-w-10">
-				<Send className="h-5 w-5" />
-				<span className="sr-only">Submit Todo</span>
+			<Button disabled={pending} type="submit" className="ml-auto">
+				<Plus className="h-5 w-5" />
+				Create Todo
 			</Button>
 		</>
 	);
@@ -58,8 +58,12 @@ export function TodoForm({
 
 	return (
 		<Card>
-			<CardContent className="p-3">
-				<form ref={formRef} className="flex gap-4" onSubmit={handleSubmit}>
+			<CardContent className="">
+				<form
+					ref={formRef}
+					className="flex flex-col gap-4"
+					onSubmit={handleSubmit}
+				>
 					<FormContent />
 				</form>
 			</CardContent>
