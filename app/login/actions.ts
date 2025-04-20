@@ -63,7 +63,6 @@ export async function oAuthLogin(provider: Provider) {
 		provider,
 		options: {
 			redirectTo: redirectUrl,
-			scopes: provider === "github" ? "repo" : undefined,
 			queryParams: {
 				next: "/todos",
 			},
