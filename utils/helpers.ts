@@ -5,8 +5,11 @@ export const getURL = (path: string = "") => {
 		process.env.NEXT_PUBLIC_VERCEL_URL ||
 		"http://localhost:3000";
 
-	// Make sure to include `https://` when not localhost.
-	const protocol = url.includes("localhost") ? "http:" : "https:";
+	// Check if it's localhost
+	const isLocalhost = url.includes("localhost");
+
+	// Use http for localhost, https for everything else
+	const protocol = isLocalhost ? "http:" : "https:";
 	const host = url.replace(/^https?:\/\//, "");
 	const cleanPath = path.replace(/^\/+/, "");
 

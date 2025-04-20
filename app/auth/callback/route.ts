@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-// The client you created from the Server-Side Auth instructions
 import { createClient } from "@/utils/supabase/server";
+import { getURL } from "@/utils/helpers";
 
 export async function GET(request: Request) {
 	const { searchParams } = new URL(request.url);
@@ -11,16 +11,9 @@ export async function GET(request: Request) {
 		const supabase = await createClient();
 		const { error } = await supabase.auth.exchangeCodeForSession(code);
 		if (!error) {
-			const baseUrl =
-				process.env.NEXT_PUBLIC_SITE_URL ||
-				`https://${request.headers.get("host")}`;
-
-			return NextResponse.redirect(`${baseUrl}${next}`);
+			return NextResponse.redirect(getURL(next));
 		}
 	}
 
-	const baseUrl =
-		process.env.NEXT_PUBLIC_SITE_URL ||
-		`https://${request.headers.get("host")}`;
-	return NextResponse.redirect(`${baseUrl}/login?message=Error authenticating`);
+	return NextResponse.redirect(getURL("/login?message=Error authenticating"));
 }
