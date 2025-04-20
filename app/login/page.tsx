@@ -9,6 +9,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { emailLogin, signUp } from "./actions";
+import { OAuthButtons } from "./oauth-login";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 
@@ -71,6 +72,7 @@ export default async function Login({ searchParams }: PageProps) {
 							Login
 						</Button>
 					</form>
+					<OAuthButtons />
 					<div className="mt-4 text-center text-sm">
 						Don&apos;t have an account?{" "}
 						<Button
