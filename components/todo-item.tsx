@@ -1,7 +1,5 @@
 "use client";
 
-import { useState } from "react";
-import { useFormStatus } from "react-dom";
 import { TodoOptimisticUpdate } from "./todo-list";
 import { deleteTodo, toggleTodo } from "@/app/todos/actions";
 import { Button } from "@/components/ui/button";
@@ -32,25 +30,24 @@ export function TodoCard({
 	todo: Todo;
 	optimisticUpdate: TodoOptimisticUpdate;
 }) {
-	const { pending } = useFormStatus();
-	const [isChecked, setIsChecked] = useState(todo.is_complete);
 	return (
-		<Card className={cn("w-full", pending && "opacity-50")}>
+		<Card className={cn("w-full")}>
 			<CardContent className="flex items-start gap-3 px-3">
 				<span className="size-10 flex items-center justify-center">
 					<Checkbox
-						disabled={pending}
-						checked={Boolean(isChecked)}
-						onCheckedChange={async (val) => {
-							if (val === "indeterminate") return;
-							setIsChecked(val);
-							await toggleTodo({ ...todo, is_complete: val });
+						type="submit"
+						checked={Boolean(todo.is_complete)}
+						formAction={async () => {
+							optimisticUpdate({
+								action: "toggle",
+								todo: { ...todo, is_complete: !todo.is_complete },
+							});
+							await toggleTodo({ ...todo, is_complete: !todo.is_complete });
 						}}
 					/>
 				</span>
 				<p className={cn("flex-1 pt-2 min-w-0 break-words")}>{todo.task}</p>
 				<Button
-					disabled={pending}
 					formAction={async () => {
 						optimisticUpdate({ action: "delete", todo });
 						await deleteTodo(todo.id);
