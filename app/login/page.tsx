@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import {
 	Card,
 	CardHeader,
@@ -6,10 +5,7 @@ import {
 	CardDescription,
 	CardContent,
 } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { emailLogin, signUp } from "./actions";
-import { OAuthButtons } from "./oauth-login";
+import { LoginForm } from "./login-form";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 
@@ -40,50 +36,7 @@ export default async function Login({ searchParams }: PageProps) {
 					</CardDescription>
 				</CardHeader>
 				<CardContent>
-					<form id="login-form" className="grid gap-4">
-						<div className="grid gap-2">
-							<Label htmlFor="email">Email</Label>
-							<Input
-								id="email"
-								name="email"
-								type="email"
-								placeholder="m@example.com"
-								required
-							/>
-						</div>
-						<div className="grid gap-2">
-							<div className="flex items-center">
-								<Label htmlFor="password">Password</Label>
-							</div>
-							<Input
-								minLength={6}
-								name="password"
-								id="password"
-								type="password"
-								required
-							/>
-						</div>
-						{message && (
-							<div className="text-sm font-medium text-destructive">
-								{message}
-							</div>
-						)}
-						<Button formAction={emailLogin} className="w-full">
-							Login
-						</Button>
-					</form>
-					<OAuthButtons />
-					<div className="mt-4 text-center text-sm">
-						Don&apos;t have an account?{" "}
-						<Button
-							formAction={signUp}
-							form="login-form"
-							variant={"link"}
-							className="p-0"
-						>
-							Sign up
-						</Button>
-					</div>
+					<LoginForm message={message} />
 				</CardContent>
 			</Card>
 		</section>
