@@ -1,17 +1,17 @@
 export const getURL = (path: string = "") => {
-	let url;
-	// Check if we're in a Vercel environment
-	if (process.env.VERCEL_ENV) {
-		// Use VERCEL_URL if we're in preview/development, or the actual domain for production
-		url = process.env.VERCEL_URL
-			? `https://${process.env.VERCEL_URL}`
-			: process.env.NEXT_PUBLIC_SITE_URL;
-	} else {
-		// For local development
-		url = "http://localhost:3000";
-	}
+	// Get the URL from environment variables
+	const url =
+		process.env.NEXT_PUBLIC_SITE_URL ||
+		process.env.NEXT_PUBLIC_VERCEL_URL ||
+		"http://localhost:3000";
 
-	// Clean up the path
+	// Check if it's localhost
+	const isLocalhost = url.includes("localhost");
+
+	// Use http for localhost, https for everything else
+	const protocol = isLocalhost ? "http:" : "https:";
+	const host = url.replace(/^https?:\/\//, "");
 	const cleanPath = path.replace(/^\/+/, "");
-	return `${url}${cleanPath ? `/${cleanPath}` : ""}`;
+
+	return `${protocol}//${host}${cleanPath ? `/${cleanPath}` : ""}`;
 };
